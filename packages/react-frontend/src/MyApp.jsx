@@ -9,14 +9,38 @@ function MyApp() {
   function removeOneCharacter(index)
   {
     const updated = characters.filter((character, i) => {
+      if (i === index)
+      {
+        deleteUser(character)
+        .then((response) => {
+          if (response.status === 204) {
+            setCharacters(updated);
+          }
+          else {
+            throw new Error("Incorrect status number")
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      }
       return i !== index;
-    });
-    setCharacters(updated)
+    })
   }
 
-  function updateList(person) { 
+  function updateList(person) {
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then((response) => {
+        if (response.status === 201) {
+          (response.json().then((id) => {
+            person["id"] = id
+            setCharacters([...characters, person]);
+          }))
+        }
+        else {
+          throw new Error("Incorrect status number")
+        }
+      })
       .catch((error) => {
         console.log(error);
       })
@@ -24,9 +48,19 @@ function MyApp() {
 
   function fetchUsers()
   {
-    console.log("Fetching users...")
     const promise = fetch("http://localhost:8003/users");
     return promise;
+  }
+
+  function deleteUser(person) {
+    const promise = fetch("Http://localhost:8003/users", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(person),
+    });
+      return promise;
   }
 
   function postUser(person) {
@@ -37,8 +71,8 @@ function MyApp() {
       },
       body: JSON.stringify(person),
     });
-
-    return promise;
+      console.log(person)
+      return promise;
   }
 
   useEffect(() => {
