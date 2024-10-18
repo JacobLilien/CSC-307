@@ -12,7 +12,8 @@ function TableHeader() {
   }
   
   function TableBody(props) {
-    const rows = props.characterData.map((row, index) => {
+    const characterData = props.characterData || [];  // Default to an empty array if characterData is undefined or null
+    const rows = characterData.map((row, index) => {
         return (
           <tr key={index}>
             <td>{row.name}</td>

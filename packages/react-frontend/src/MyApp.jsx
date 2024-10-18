@@ -13,12 +13,7 @@ function MyApp() {
       {
         deleteUser(character)
         .then((response) => {
-          if (response.status === 204) {
-            setCharacters(updated);
-          }
-          else {
-            throw new Error("Incorrect status number")
-          }
+          console.log(response)
         })
         .catch((error) => {
           console.log(error);
@@ -31,15 +26,18 @@ function MyApp() {
   function updateList(person) {
     postUser(person)
       .then((response) => {
-        if (response.status === 201) {
-          (response.json().then((id) => {
-            person["id"] = id
+        (response.json().then((id) => {
+          person["id"] = id
+          // if (characters)
+          // {
             setCharacters([...characters, person]);
-          }))
-        }
-        else {
-          throw new Error("Incorrect status number")
-        }
+          // }
+          // else
+          // {
+          //   setCharacters([ person]);
+          // }
+          
+        }))
       })
       .catch((error) => {
         console.log(error);
@@ -53,7 +51,8 @@ function MyApp() {
   }
 
   function deleteUser(person) {
-    const promise = fetch("Http://localhost:8003/users", {
+    console.log(person);
+    const promise = fetch("Http://localhost:8003/users/" + person["_id"]._id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -77,8 +76,16 @@ function MyApp() {
 
   useEffect(() => {
     fetchUsers()
-      .then((res) => res.json())
-      .then((json) => setCharacters(json["users_list"]))
+      .then((res) => {
+        console.log(res)
+        res.json()
+      })
+
+      .then((json) => {
+        // console.log(json["users_list"])
+        setCharacters(json["users_list"])
+      })
+      
       .catch((error) => { console.log(error); });
   }, [] );
 

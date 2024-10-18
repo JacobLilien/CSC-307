@@ -6,7 +6,7 @@ function Form(props)
   const [person, setPerson] = useState({
     name: "",
     job: "",
-    id: ""
+    _id: props._id
 });
 
   function handleChange(event) 
@@ -20,7 +20,7 @@ function Form(props)
   function submitForm()
   {
     props.handleSubmit(person);
-    setPerson({ name: "", job: "", id: ""});
+    setPerson({ name: "", job: ""});
   }
 
   return (
