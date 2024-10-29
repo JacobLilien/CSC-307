@@ -1,0 +1,22 @@
+{
+  "name": "jest-packages",
+  "version": "1.0.0",
+  "main": "module.js",
+  "type": "module",
+  "scripts": {
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "jest": {
+    "transform": {"^.+\\.jsx?$": "babel-jest"}
+  },
+  "author": "Jacob Lilien",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jest": "^29.7.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0"
+  }
+}
